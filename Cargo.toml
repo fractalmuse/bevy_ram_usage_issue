@@ -1,0 +1,15 @@
+[package]
+name = "ram_usage"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+bevy = "0.9"
+iyes_loopless = { version = "0.9", features = ["bevy-inspector-egui"] }
+iyes_progress = { version = "0.7", features = ["assets", "iyes_loopless"] }
+
+[features]
+only_font = []
+all_assets = []
