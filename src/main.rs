@@ -121,7 +121,26 @@ fn load_assets(
     }
 }
 
-fn main_menu_setup(mut commands: Commands, pack: Res<GraphicsPack>) {
+const MB_SIZE: f32 = 1_000_000.;
+
+fn main_menu_setup(mut commands: Commands, pack: Res<GraphicsPack>, images: Res<Assets<Image>>) {
+    #[cfg(feature = "all_assets")]
+    {
+        // Log the memory that the loaded images are using
+        bevy::log::info!("**Image Memory Usage**");
+        let mut total_mb_size: f32 = 0.;
+
+        for (name, handle) in &pack.handles {
+            if name == "heading_font" || name == "body_font" { continue; }
+    
+            let mb_size = (images.get(&handle.typed_weak()).unwrap().data.len() as f32) / MB_SIZE;
+            bevy::log::info!("{}: {:.3}MB", name, mb_size);
+            total_mb_size += mb_size;
+        }
+
+        bevy::log::info!("Total: {:.3}MB", total_mb_size);
+    }
+
     commands
         .spawn(NodeBundle {
             style: Style {
